@@ -5,10 +5,14 @@ import 'package:flutter/services.dart';
 class CustomTextField extends StatelessWidget {
   final String label; // 텍스트 필드 제목
   final bool isTime; // 시간 선택하는 텍스트 필드인지 여부
+  final FormFieldSetter<String> onSaved;
+  final FormFieldValidator<String> validator;
 
   const CustomTextField({
     required this.label,
     required this.isTime,
+    required this.onSaved,
+    required this.validator,
     Key? key,
   }) : super(key: key);
 
@@ -27,8 +31,10 @@ class CustomTextField extends StatelessWidget {
         Expanded(
           flex: isTime ? 0 : 1,
           child: TextFormField(
+            onSaved: onSaved, // 폼 저장시 실행할 함수
+            validator: validator, // 폼 검증시 실행할 함수
             cursorColor: Colors.grey, // 커서 색상 번경
-            maxLines: isTime ? 1 : null, // 시간 관련 텍스트 필드가 아니면 한 주 ㄹ이상 작성 가능
+            maxLines: isTime ? 1 : null, // 시간 관련 텍스트 필드가 아니면 한 줄 이상 작성 가능
             expands: !isTime, // 시간 관련 텍스트 필드는 공간 초대 차지
             keyboardType: isTime
                 ? TextInputType.number
