@@ -8,9 +8,11 @@ import 'package:calendar_scheduler/component/schedule_bottom_sheet.dart';
 import 'package:get_it/get_it.dart';
 import 'package:calendar_scheduler/database/drift_database.dart';
 
+import 'package:calendar_scheduler/component/today_banner.dart';
+
 class HomeScreen extends StatefulWidget {
   // StatefulWidget으로 전환: 상태관리를 하기 위함
-  // const HomeScreen({Key? key}) : super(key: key);
+  //  HomeScreen({Key? key}) : super(key: key);
   const HomeScreen({Key? key}) : super(key: key);
 
   @override
@@ -61,7 +63,14 @@ class _HomeScreenState extends State<HomeScreen> {
           const SizedBox(height: 8.0),
 
           // 배너 추가하기
-          TodayBanner(selectedDate: selectedDate, count: 0),
+          StreamBuilder<List<Schedule>>(
+              stream: GetIt.I<LocalDatabase>().watchSchedules(selectedDate),
+              builder: (context, snapshot) {
+                return TodayBanner(
+                  selectedDate: selectedDate,
+                  count: snapshot.data?.length ?? 0, // 일정 개수 입력해주기
+                );
+              }),
           const SizedBox(height: 8.0),
 
           Expanded(
