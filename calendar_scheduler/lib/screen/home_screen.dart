@@ -67,29 +67,46 @@ class _HomeScreenState extends State<HomeScreen> {
           Expanded(
               // 남은 공간 모두 차지하기
               child: StreamBuilder<List<Schedule>>(
-                  // 일정 정보가 Stream으로 제공되기 때문에 StreamBuilder 사용
-                  stream: GetIt.I<LocalDatabase>().watchSchedules(selectedDate),
+                  // 일정 정보가 Stream으로 제공되기 때문에 StreamBuilder 사용: 데이터가 변경될 때마다 위젯들을 새로 렌더링
+                  stream: GetIt.I<LocalDatabase>().watchSchedules(
+                      selectedDate), // selectedDate의 일정만 따로 필터링해서 가져오기
                   builder: (context, snapshot) {
+                    // 데이터가 없을 때: 아무것도 들어있지 않은 Container 렌더링
                     if (!snapshot.hasData) {
-                      // 데이터가 없을 때
                       return Container();
                     }
 
+                    // 데이터가 있는 경우
+                    // ListView: 화면에 보이는 값들만 렌더링하는 리스트, 여러 개의 위젯을 스크롤 가능한 위젯에 구현
                     return ListView.builder(
-                      // 화면에 보이는 값들만 렌더링하는 리스트
                       itemCount: snapshot.data!.length, // 리스트에 입력할 값들의 총 개수
+
+                      // 각 객체를 구현
                       itemBuilder: (context, index) {
                         final schedule =
                             snapshot.data![index]; // 현재 index에 해당되는 일정
+                        return Dismissible(
+                          key: ObjectKey(schedule.id), // 유니크한 키 값
 
-                        return Padding(
-                          // 좌우로 패딩을 추가해서 UI 개선
-                          padding: const EdgeInsets.only(
-                              bottom: 8.0, left: 8.0, right: 8.0),
-                          child: ScheduleCard(
-                              startTime: schedule.startTime,
-                              endTime: schedule.endTime,
-                              content: schedule.content),
+                          // 밀기 방향(오른쪽에서 왼쪽으로)
+                          direction: DismissDirection.startToEnd,
+
+                          // 밀기 했을 때 실행할 함수
+                          onDismissed: (DismissDirection dismissDirection) {
+                            GetIt.I<LocalDatabase>()
+                                .removeSchedule(schedule.id);
+                          },
+
+                          child: Padding(
+                            // 좌우로 패딩을 추가해서 UI 개선
+                            padding: const EdgeInsets.only(
+                                bottom: 8.0, left: 8.0, right: 8.0),
+
+                            child: ScheduleCard(
+                                startTime: schedule.startTime,
+                                endTime: schedule.endTime,
+                                content: schedule.content),
+                          ),
                         );
                       },
                     );
