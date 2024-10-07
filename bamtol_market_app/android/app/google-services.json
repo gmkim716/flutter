@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "692493440619",
+    "project_id": "bamtol-market-app-ee81c",
+    "storage_bucket": "bamtol-market-app-ee81c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:692493440619:android:18f0cd85454f2dbf41432e",
+        "android_client_info": {
+          "package_name": "com.bamtolmarket.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAKkp5utY_yl4HitBhS_JHh7ybu2pDNbkw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
