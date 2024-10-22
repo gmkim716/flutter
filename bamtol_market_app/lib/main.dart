@@ -1,3 +1,4 @@
+import 'package:bamtol_market_app/splash/splash_controller.dart';
 import 'package:bamtol_market_app/src/app.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -34,6 +35,9 @@ class MyApp extends StatelessWidget {
         ),
         scaffoldBackgroundColor: const Color(0xff212123),
       ),
+      initialBinding: BindingsBuilder(() {  // initialBinding 옵션을 통해 SplashController를 등록
+        Get.put(SplashController());
+      }),
       getPages: [
         GetPage(name: '/', page: () => const App()),
       ],

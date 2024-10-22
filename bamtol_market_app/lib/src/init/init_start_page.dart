@@ -1,8 +1,13 @@
+import 'package:bamtol_market_app/src/common/component/app_font.dart';
+import 'package:bamtol_market_app/src/common/component/btn.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:get/get.dart';
 
 class InitStartPage extends StatelessWidget {
-  const InitStartPage({super.key});
+  final Function()
+      onStart; // 필수 함수로 받도록 처리하고, app.dart에서 onStart 함수를 정의해서 사용합니다
+  const InitStartPage({super.key, required this.onStart});
 
   @override
   Widget build(BuildContext context) {
@@ -34,6 +39,22 @@ class InitStartPage extends StatelessWidget {
               ),
             ),
           ],
+        ),
+      ),
+      bottomNavigationBar: Padding(
+        padding: EdgeInsets.only(
+            left: 25,
+            right: 25,
+            bottom: 25 +
+                // iOS에서 하단에서 위로 쓸어올리면 제어 센터 영역이 나타나기 때문에 UI가 답답해보일 수 있어, MediaQuery를 통해 iOS에서만 더 큰 간격을 줄 수 있도록 합니다
+                Get.mediaQuery.padding.bottom),
+        child: Btn(
+          onTap: onStart,
+          child: const AppFont(
+            '시작하기',
+            size: 18,
+            fontWeight: FontWeight.bold,
+          ),
         ),
       ),
     );
